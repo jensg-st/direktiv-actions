@@ -35,16 +35,18 @@ func main() {
 		},
 	}
 
-	fmt.Printf(">> %v", in)
+	fmt.Printf(">> %v\n", in)
 
 	for _, i := range in {
 		getValue(&i.value, i.name)
 	}
 
-	fmt.Printf(">> %v", in)
+	fmt.Printf(">> %v\n", in)
 
 	fmt.Printf("using server: %v %v\n", in[serverIdx].value, in[serverIdx].name)
 	fmt.Printf("executing workflow: %v\n", in[workflowIdx].value)
+
+	fmt.Printf(">> %v\n", in)
 
 	// fmt.Printf("ARGS %v\n", os.Args)
 	// fmt.Printf("ENVS %v\n", os.Environ())
