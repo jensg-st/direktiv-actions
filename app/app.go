@@ -35,19 +35,23 @@ func main() {
 		},
 	}
 
+	fmt.Printf(">> %v", in)
+
 	for _, i := range in {
 		getValue(&i.value, i.name)
 	}
 
-	fmt.Printf("using server: %v", in[serverIdx].value)
-	fmt.Printf("executing workflow: %v", in[workflowIdx].value)
+	fmt.Printf(">> %v", in)
+
+	fmt.Printf("using server: %v %v\n", in[serverIdx].value, in[serverIdx].name)
+	fmt.Printf("executing workflow: %v\n", in[workflowIdx].value)
 
 	// fmt.Printf("ARGS %v\n", os.Args)
 	// fmt.Printf("ENVS %v\n", os.Environ())
 }
 
 func getValue(val *string, key string) {
-	githubactions.Infof("getting key for %v", key)
+	githubactions.Infof("getting key for %v\n", key)
 	*val = githubactions.GetInput(key)
-	githubactions.Infof("value for %v", *val)
+	githubactions.Infof("value for %v\n", *val)
 }
