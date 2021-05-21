@@ -4,10 +4,13 @@ on:
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: test workflow execution
     steps:
       - name: Hello world action step
         id: hello
+        with:
+          server: playground.direktiv.io
+          workflow: jens/myreq
         uses: jensg-st/direktiv-actions@test
       - name: Get the output time
         run: echo "done"

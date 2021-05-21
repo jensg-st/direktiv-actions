@@ -1,5 +1,9 @@
 #!/bin/bash
 
+git add .
+git commit -s -S -m "first"
+git push
+
 git tag -d test
 git push --delete origin test
 
