@@ -1,12 +1,16 @@
 name: 'Execute Direktiv Workflow'
 description: 'Executes a workflow in direktiv'
 branding:
-  icon: 'play-circle'  
+  icon: 'play-circle'
   color: 'blue'
 inputs:
   server:
     description: 'direktiv server ip or name'
     required: true
+  protocol:
+    description: 'http or https'
+    required: false
+    default: 'https'
   workflow:
     description: 'namespace/workflow to execute'
     required: true

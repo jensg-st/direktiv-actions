@@ -9,7 +9,7 @@ jobs:
       - name: execute
         with:
           server: playground.direktiv.io
-          workflow: jens/myreq
+          workflow: jens/action
           token: ${{ secrets.DIREKTIV_TOKEN }}
           data: |
             {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/url"
 	"strings"
 
 	"github.com/sethvargo/go-githubactions"
@@ -17,6 +18,7 @@ const (
 	workflowIdx = iota
 	tokenIdx    = iota
 	dataIdx     = iota
+	protocolIdx = iota
 )
 
 func main() {
@@ -33,6 +35,9 @@ func main() {
 		},
 		args{
 			name: "data",
+		},
+		args{
+			name: "protocol",
 		},
 	}
 
@@ -64,7 +69,12 @@ func doRequest(in []args) {
 		githubactions.Infof("using token authentication\n")
 	}
 
-	// /api/namespaces/{namespace}/workflows/{workflow}/execute
+	u := &url.URL{}
+	u.Scheme = in[protocolIdx].value
+	u.Host = in[serverIdx].value
+	u.Path = fmt.Sprintf("/api/namespaces/%s/workflows/%s/execute", wf[0], wf[1])
+
+	githubactions.Infof("direktiv url %v\n", u.String())
 
 	// resp, err := http.Get("https://jsonplaceholder.typicode.com/posts/1")
 	// if err != nil {
