@@ -39,8 +39,8 @@ func main() {
 		getValue(&i.value, i.name)
 	}
 
-	fmt.Printf("using server: %v", in[serverIdx])
-	fmt.Printf("executing workflow: %v", in[workflowIdx])
+	fmt.Printf("using server: %v", in[serverIdx].value)
+	fmt.Printf("executing workflow: %v", in[workflowIdx].value)
 
 	// fmt.Printf("ARGS %v\n", os.Args)
 	// fmt.Printf("ENVS %v\n", os.Environ())
