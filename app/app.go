@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/sethvargo/go-githubactions"
 )
@@ -35,25 +36,43 @@ func main() {
 		},
 	}
 
-	fmt.Printf(">> %v\n", in)
-
 	for i := range in {
 		getValue(&in[i].value, in[i].name)
 	}
 
-	fmt.Printf(">> %v\n", in)
+	fmt.Printf("using server: %v\n", in[serverIdx].value)
 
-	fmt.Printf("using server: %v %v\n", in[serverIdx].value, in[serverIdx].name)
-	fmt.Printf("executing workflow: %v\n", in[workflowIdx].value)
+	if in[serverIdx].value == "" || in[workflowIdx].value == "" {
+		githubactions.Fatalf("server and workflow values are required\n")
+	}
 
-	fmt.Printf(">> %v\n", in)
+	doRequest(in)
+}
 
-	// fmt.Printf("ARGS %v\n", os.Args)
-	// fmt.Printf("ENVS %v\n", os.Environ())
+func doRequest(in []args) {
+
+	wf := strings.SplitN(in[workflowIdx].value, "/", 2)
+	if len(wf) != 2 {
+		githubactions.Fatalf("namespace/workflow is wroing format: %v\n",
+			in[workflowIdx].value)
+	}
+
+	githubactions.Infof("executing workflow %s in %s\n", wf[0], wf[1])
+
+	// set token if provided
+	if len(in[tokenIdx].value) > 0 {
+		githubactions.Infof("using token authentication\n")
+	}
+
+	// /api/namespaces/{namespace}/workflows/{workflow}/execute
+
+	// resp, err := http.Get("https://jsonplaceholder.typicode.com/posts/1")
+	// if err != nil {
+	// 	log.Fatalln(err)
+	// }
+
 }
 
 func getValue(val *string, key string) {
-	githubactions.Infof("getting key for %v\n", key)
 	*val = githubactions.GetInput(key)
-	githubactions.Infof("value for %v\n", *val)
 }

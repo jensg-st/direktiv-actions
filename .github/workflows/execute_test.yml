@@ -10,6 +10,7 @@ jobs:
         with:
           server: playground.direktiv.io
           workflow: jens/myreq
+          token: ${{ secrets.DIREKTIV_TOKEN }}
           data: |
             {
               "data": "one"
