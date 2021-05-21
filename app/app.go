@@ -37,8 +37,8 @@ func main() {
 
 	fmt.Printf(">> %v\n", in)
 
-	for _, i := range in {
-		getValue(&i.value, i.name)
+	for i := range in {
+		getValue(&in[i].value, in[i].name)
 	}
 
 	fmt.Printf(">> %v\n", in)
