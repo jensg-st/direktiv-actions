@@ -1,0 +1,28 @@
+name: 'Execute Direktiv Workflow'
+description: 'Executes a workflow in direktiv'
+inputs:
+  server:
+    description: 'direktiv server ip or name'
+    required: true
+  workflow:
+    description: 'namespace/workflow to execute'
+    required: true
+  token:
+    description: 'access token for the direktiv server'
+    required: false
+    default: ''
+  data:
+    description: 'workflow data'
+    required: false
+    default: '{}'
+outputs:
+  instance-id:
+    description: 'instance-id of the workflow'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.server }}
+    - ${{ inputs.workflow }}
+    - ${{ inputs.token }}
+    - ${{ inputs.data }}
