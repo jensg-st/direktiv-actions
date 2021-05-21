@@ -69,6 +69,8 @@ func doRequest(in []args) {
 		githubactions.Infof("using token authentication\n")
 	}
 
+	githubactions.Infof("render url\n")
+
 	u := &url.URL{}
 	u.Scheme = in[protocolIdx].value
 	u.Host = in[serverIdx].value
@@ -76,10 +78,7 @@ func doRequest(in []args) {
 
 	githubactions.Infof("direktiv url %v\n", u.String())
 
-	// resp, err := http.Get("https://jsonplaceholder.typicode.com/posts/1")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
+	// r, err := http.Post(u.String(), "application/json", bytes.NewBuffer(""))
 
 }
 
