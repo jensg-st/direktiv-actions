@@ -8,6 +8,6 @@ jobs:
     steps:
       - name: Hello world action step
         id: hello
-        uses: jensg-st/direktiv-actions
+        uses: jensg-st/direktiv-actions@test
       - name: Get the output time
         run: echo "done"
