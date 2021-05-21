@@ -6,11 +6,14 @@ jobs:
     runs-on: ubuntu-latest
     name: test workflow execution
     steps:
-      - name: Hello world action step
-        id: hello
+      - name: execute
         with:
           server: playground.direktiv.io
           workflow: jens/myreq
+          data: |
+            {
+              "data": "one"
+            }
         uses: jensg-st/direktiv-actions@test
       - name: Get the output time
         run: echo "done"
