@@ -47,5 +47,7 @@ func main() {
 }
 
 func getValue(val *string, key string) {
+	githubactions.Infof("getting key for %v", key)
 	*val = githubactions.GetInput(key)
+	githubactions.Infof("value for %v", *val)
 }
