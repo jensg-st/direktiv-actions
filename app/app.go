@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 	"strings"
 
@@ -69,14 +70,20 @@ func doRequest(in []args) {
 		githubactions.Infof("using token authentication\n")
 	}
 
-	githubactions.Infof("render url\n")
-
 	u := &url.URL{}
 	u.Scheme = in[protocolIdx].value
 	u.Host = in[serverIdx].value
 	u.Path = fmt.Sprintf("/api/namespaces/%s/workflows/%s/execute", wf[0], wf[1])
 
 	githubactions.Infof("direktiv url %v\n", u.String())
+
+	req, err := http.NewRequest("POST", u.String(),
+		strings.NewReader(in[dataIdx].value))
+	if err != nil {
+		githubactions.Fatalf("")
+	}
+	req.Header.Set("Content-Type", "application/json")
+	// return c.doFollowingRedirects(req, shouldRedirectPost)
 
 	// r, err := http.Post(u.String(), "application/json", bytes.NewBuffer(""))
 
