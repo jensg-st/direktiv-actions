@@ -133,7 +133,9 @@ func doRequest(in []args) {
 	if err != nil {
 		githubactions.Fatalf("can not read response: %v", err)
 	}
-	githubactions.SetOutput("body", string(b))
+	githubactions.SetOutput("instance-body", string(b))
+
+	fmt.Printf(">>>> %v <<<<", string(b))
 
 }
 

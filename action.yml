@@ -29,7 +29,7 @@ inputs:
 outputs:
   instance-id:
     description: 'instance-id of the workflow'
-  body:
+  instance-body:
     description: 'body of the response if wait it set'
 runs:
   using: 'docker'
