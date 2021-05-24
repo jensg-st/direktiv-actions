@@ -82,7 +82,9 @@ func doRequest(in []args) {
 
 	fmt.Printf("ENS %v\n", os.Environ())
 	if in[waitIdx].value == "true" {
-		u.Query().Add("wait", "true")
+		q := u.Query()
+		q.Set("wait", "true")
+		u.RawQuery = q.Encode()
 	}
 
 	githubactions.Infof("direktiv url %v\n", u.String())
