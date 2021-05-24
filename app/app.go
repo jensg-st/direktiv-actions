@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
 
 	"github.com/sethvargo/go-githubactions"
@@ -70,17 +69,11 @@ func doRequest(in []args) {
 
 	githubactions.Infof("executing workflow %s in %s\n", wf[0], wf[1])
 
-	// set token if provided
-	if len(in[tokenIdx].value) > 0 {
-		githubactions.Infof("using token authentication\n")
-	}
-
 	u := &url.URL{}
 	u.Scheme = in[protocolIdx].value
 	u.Host = in[serverIdx].value
 	u.Path = fmt.Sprintf("/api/namespaces/%s/workflows/%s/execute", wf[0], wf[1])
 
-	fmt.Printf("ENS %v\n", os.Environ())
 	if in[waitIdx].value == "true" {
 		q := u.Query()
 		q.Set("wait", "true")
@@ -92,10 +85,24 @@ func doRequest(in []args) {
 	req, err := http.NewRequest("POST", u.String(),
 		strings.NewReader(in[dataIdx].value))
 	if err != nil {
-		githubactions.Fatalf("")
+		githubactions.Fatalf("can not create request: %v", err)
 	}
+
 	req.Header.Set("Content-Type", "application/json")
 
+	// set token if provided
+	if len(in[tokenIdx].value) > 0 {
+		githubactions.Infof("using token authentication\n")
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", in[tokenIdx].value))
+	}
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		githubactions.Fatalf("can not post request: %v", err)
+	}
+
+	fmt.Printf("%v\n", resp)
 	// r, err := http.Post(u.String(), "application/json", strings.NewReader(in[dataIdx].value))
 
 }
