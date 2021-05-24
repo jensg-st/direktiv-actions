@@ -18,8 +18,6 @@ jobs:
               "data": "one"
             }
         uses: jensg-st/direktiv-actions@test
-      - name: Get the output time
-        run: echo "done"
-    - name: use
-      run: |
-        echo {{ steps.execute.outputs }}
+      - name: get the output
+        run: |
+          echo {{ steps.execute.outputs }}
