@@ -39,3 +39,4 @@ runs:
     - ${{ inputs.workflow }}
     - ${{ inputs.token }}
     - ${{ inputs.data }}
+    - ${{ inputs.wait }}
