@@ -111,6 +111,7 @@ func doRequest(in []args) {
 	}
 
 	if in[waitIdx].value == "true" {
+
 		id := resp.Header.Get("Direktiv-Instanceid")
 		githubactions.Infof("instance id: %v\n", id)
 
@@ -123,9 +124,15 @@ func doRequest(in []args) {
 			githubactions.Fatalf("can not read response: %v", err)
 		}
 		githubactions.SaveState("body", string(b))
+
 	} else {
 
-		fmt.Printf(">>> %v\n", r)
+		id, ok := r["instanceId"].(string)
+		if !ok {
+			githubactions.Fatalf("instance-id missing in response")
+		}
+		githubactions.SaveState("instance-id", id)
+		githubactions.SaveState("body", "")
 
 	}
 

@@ -7,6 +7,7 @@ jobs:
     name: test workflow execution
     steps:
       - name: execute
+        id: execute
         with:
           wait: false
           server: playground.direktiv.io
@@ -19,3 +20,6 @@ jobs:
         uses: jensg-st/direktiv-actions@test
       - name: Get the output time
         run: echo "done"
+    - name: use
+      run: |
+        echo {{ steps.execute.outputs }}
