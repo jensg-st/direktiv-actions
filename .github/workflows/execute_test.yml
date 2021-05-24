@@ -8,6 +8,7 @@ jobs:
     steps:
       - name: execute
         with:
+          wait: true
           server: playground.direktiv.io
           workflow: jens/action
           token: ${{ secrets.DIREKTIV_TOKEN }}
