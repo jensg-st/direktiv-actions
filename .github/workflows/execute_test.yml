@@ -20,6 +20,6 @@ jobs:
         uses: jensg-st/direktiv-actions@test
       - name: get the output
         run: |
-          echo "cpntext id: $WF_VALUE"
+          echo "context id: $WF_VALUE"
         env:
-          WF_VALUE: ${{ steps.execute.outputs.* }}
+          WF_VALUE: ${{join(steps.execute.outputs.*, '\n')}}
