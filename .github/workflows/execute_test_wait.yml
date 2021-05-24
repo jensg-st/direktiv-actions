@@ -20,7 +20,6 @@ jobs:
         uses: jensg-st/direktiv-actions@test
       - name: get the output
         run: |
-          printenv
           echo "$WF_BODY"
           echo "$WF_ID"
         env:
