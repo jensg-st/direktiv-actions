@@ -20,6 +20,8 @@ jobs:
         uses: jensg-st/direktiv-actions@test
       - name: get the output
         run: |
-          echo $WF_VALUE
+          echo $WF_BODY
+          echo $WF_ID
         env:
-          WF_VALUE: ${{ steps.execute.outputs.* }}
+          WF_BODY: ${{ steps.execute.outputs.body }}
+          WF_ID: ${{ steps.execute.outputs.instance-id }}
