@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -102,7 +103,16 @@ func doRequest(in []args) {
 		githubactions.Fatalf("can not post request: %v", err)
 	}
 
-	fmt.Printf("%v\n", resp)
+	r := make(map[string]interface{})
+	err = json.NewDecoder(resp.Body).Decode(&r)
+	if err != nil {
+		githubactions.Fatalf("can not read response: %v", err)
+	}
+
+	id := resp.Header.Get("Direktiv-Instanceid")
+	githubactions.Infof("instance id: %v", id)
+
+	fmt.Printf("%v\n", r)
 	// r, err := http.Post(u.String(), "application/json", strings.NewReader(in[dataIdx].value))
 
 }
