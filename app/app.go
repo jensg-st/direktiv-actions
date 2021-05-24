@@ -115,15 +115,7 @@ func doRequest(in []args) {
 		id := resp.Header.Get("Direktiv-Instanceid")
 		githubactions.Infof("instance id: %v\n", id)
 
-		githubactions.SaveState("instance-id", id)
-
-		// get body
-		defer resp.Body.Close()
-		b, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			githubactions.Fatalf("can not read response: %v", err)
-		}
-		githubactions.SaveState("body", string(b))
+		githubactions.SetOutput("instance-id", id)
 
 	} else {
 
@@ -131,10 +123,17 @@ func doRequest(in []args) {
 		if !ok {
 			githubactions.Fatalf("instance-id missing in response")
 		}
-		githubactions.SaveState("instance-id", id)
-		githubactions.SaveState("body", "")
+		githubactions.SetOutput("instance-id", id)
 
 	}
+
+	// get body
+	defer resp.Body.Close()
+	b, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		githubactions.Fatalf("can not read response: %v", err)
+	}
+	githubactions.SetOutput("body", string(b))
 
 }
 
