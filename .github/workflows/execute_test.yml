@@ -23,5 +23,5 @@ jobs:
           echo "$WF_BODY"
           echo "$WF_ID"
         env:
-          WF_BODY: ${{ steps.execute.outputs.body }}
+          WF_BODY: ${{ steps.execute.outputs.instance-body }}
           WF_ID: ${{ steps.execute.outputs.instance-id }}
