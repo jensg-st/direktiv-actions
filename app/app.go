@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 
 	"github.com/sethvargo/go-githubactions"
@@ -79,6 +80,7 @@ func doRequest(in []args) {
 	u.Host = in[serverIdx].value
 	u.Path = fmt.Sprintf("/api/namespaces/%s/workflows/%s/execute", wf[0], wf[1])
 
+	fmt.Printf("ENS %v\n", os.Environ())
 	if in[waitIdx].value == "true" {
 		u.Query().Add("wait", "true")
 	}
