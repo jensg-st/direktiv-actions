@@ -22,4 +22,4 @@ jobs:
         run: |
           echo "cpntext id: $WF_VALUE"
         env:
-          WF_VALUE: ${{ steps.execute.outputs }}
+          WF_VALUE: ${{ steps.execute.outputs.* }}
