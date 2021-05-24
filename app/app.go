@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
@@ -109,11 +110,24 @@ func doRequest(in []args) {
 		githubactions.Fatalf("can not read response: %v", err)
 	}
 
-	id := resp.Header.Get("Direktiv-Instanceid")
-	githubactions.Infof("instance id: %v", id)
+	if in[waitIdx].value == "true" {
+		id := resp.Header.Get("Direktiv-Instanceid")
+		githubactions.Infof("instance id: %v\n", id)
 
-	fmt.Printf("%v\n", r)
-	// r, err := http.Post(u.String(), "application/json", strings.NewReader(in[dataIdx].value))
+		githubactions.SaveState("instance-id", id)
+
+		// get body
+		defer resp.Body.Close()
+		b, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			githubactions.Fatalf("can not read response: %v", err)
+		}
+		githubactions.SaveState("body", string(b))
+	} else {
+
+		fmt.Printf(">>> %v\n", r)
+
+	}
 
 }
 
