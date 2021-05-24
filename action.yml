@@ -22,7 +22,7 @@ inputs:
     description: 'workflow data'
     required: false
     default: '{}'
-  data:
+  wait:
     description: 'wait'
     required: false
     default: 'false'
