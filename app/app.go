@@ -108,15 +108,17 @@ func doRequest(in []args) {
 
 	if in[waitIdx].value == "true" {
 
+		b, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			githubactions.Fatalf("can not read response: %v", err)
+		}
+
 		id := resp.Header.Get("Direktiv-Instanceid")
 		githubactions.Infof("instance id: %v\n", id)
 
 		githubactions.SetOutput("instance-id", id)
 
-		b, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			githubactions.Fatalf("can not read response: %v", err)
-		}
+		fmt.Printf(">>> %v %v\n", len(b), string(b))
 		githubactions.SetOutput("instance-body", string(b))
 
 	} else {
