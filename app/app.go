@@ -20,6 +20,7 @@ const (
 	tokenIdx    = iota
 	dataIdx     = iota
 	protocolIdx = iota
+	waitIdx     = iota
 )
 
 func main() {
@@ -39,6 +40,9 @@ func main() {
 		},
 		args{
 			name: "protocol",
+		},
+		args{
+			name: "wait",
 		},
 	}
 
@@ -75,6 +79,10 @@ func doRequest(in []args) {
 	u.Host = in[serverIdx].value
 	u.Path = fmt.Sprintf("/api/namespaces/%s/workflows/%s/execute", wf[0], wf[1])
 
+	if in[waitIdx].value == "true" {
+		u.Query().Add("wait", "true")
+	}
+
 	githubactions.Infof("direktiv url %v\n", u.String())
 
 	req, err := http.NewRequest("POST", u.String(),
@@ -83,9 +91,8 @@ func doRequest(in []args) {
 		githubactions.Fatalf("")
 	}
 	req.Header.Set("Content-Type", "application/json")
-	// return c.doFollowingRedirects(req, shouldRedirectPost)
 
-	// r, err := http.Post(u.String(), "application/json", bytes.NewBuffer(""))
+	// r, err := http.Post(u.String(), "application/json", strings.NewReader(in[dataIdx].value))
 
 }
 
