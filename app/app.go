@@ -104,11 +104,7 @@ func doRequest(in []args) {
 		githubactions.Fatalf("can not post request: %v", err)
 	}
 
-	r := make(map[string]interface{})
-	err = json.NewDecoder(resp.Body).Decode(&r)
-	if err != nil {
-		githubactions.Fatalf("can not read response: %v", err)
-	}
+	defer resp.Body.Close()
 
 	if in[waitIdx].value == "true" {
 
@@ -117,25 +113,28 @@ func doRequest(in []args) {
 
 		githubactions.SetOutput("instance-id", id)
 
+		b, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			githubactions.Fatalf("can not read response: %v", err)
+		}
+		githubactions.SetOutput("instance-body", string(b))
+
 	} else {
+
+		r := make(map[string]interface{})
+		err = json.NewDecoder(resp.Body).Decode(&r)
+		if err != nil {
+			githubactions.Fatalf("can not read response: %v", err)
+		}
 
 		id, ok := r["instanceId"].(string)
 		if !ok {
 			githubactions.Fatalf("instance-id missing in response")
 		}
 		githubactions.SetOutput("instance-id", id)
+		githubactions.SetOutput("instance-body", "")
 
 	}
-
-	// get body
-	defer resp.Body.Close()
-	b, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		githubactions.Fatalf("can not read response: %v", err)
-	}
-	githubactions.SetOutput("instance-body", string(b))
-
-	fmt.Printf(">>>> %v <<<<", string(b))
 
 }
 
